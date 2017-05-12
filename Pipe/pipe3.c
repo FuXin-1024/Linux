@@ -36,7 +36,7 @@ int main()
 		int i=0;
 		while(i<10)
 		{
-			if(i<5)
+			if(i<8)
 			{
 
 			write(fds[1],msg,strlen(msg)+1);
@@ -45,14 +45,13 @@ int main()
 			sleep(1);
 			++i;
 		}
-		close(fds[1]);
 	}
 	else
 	{
 		close(fds[1]);//关闭写
 		char buf[1024];
 		int j=0;
-		while(j<6)
+		while(j<3)
 		{
 		ssize_t ret=read(fds[0],buf,sizeof(buf));
 		printf("father read :%s,code is %d\n",buf,ret);
