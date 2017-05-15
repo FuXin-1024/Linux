@@ -31,12 +31,12 @@ int main()
 		return 2;
 	}
 	char buf[_SIZE_];
-	memset(buf,'\0',sizeof(buf)-1);
+	memset(buf,'\0',sizeof(buf));
 	while(1)
 	{
 		read(0,buf,sizeof(buf));
-		int ret=write(fd,buf,strlen(buf));
-	//	buf[ret]='\0';
+		int ret=write(fd,buf,strlen(buf)-1);
+		buf[ret]='\0';
 		if(ret<0)
 		{
 			printf("wirte error!\n");
