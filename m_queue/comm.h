@@ -17,4 +17,16 @@
 #include<time.h>
 
 #define __MSG_SIZE__ 1024
-#define FILEPATH 
+#define FILEPATH "./.msg"
+#define ID 0
+extern const int g_ser_send_type;//server
+extern const int g_cli_send-type;//client
+
+typedef strut _msginfo
+{
+	long mtype;
+	char mtext[__MSG_SIZE__];
+}msginfo;
+
+void print_log(char *);
+#endif;
