@@ -15,18 +15,27 @@
 #include<sys/types.h>
 #include<string.h>
 #include<time.h>
+#include<unistd.h>
 
-#define __MSG_SIZE__ 1024
-#define FILEPATH "./.msg"
-#define ID 0
-extern const int g_ser_send_type;//server
-extern const int g_cli_send-type;//client
+#define MSG_SIZE 1024
+#define PATHNAME "."
+#define PROJID 0x6666
 
-typedef strut _msginfo
+#define CLIENT_TYPE 1
+#define SERVER_TYPE 2
+
+
+ strut _msgbuf
 {
 	long mtype;
-	char mtext[__MSG_SIZE__];
+	char mtext[MSG_SIZE];
 }msginfo;
 
-void print_log(char *);
+int commMsgQueue(int flag);
+int creatMasQueue();
+int getMsgQueue();
+int sendMessage(int msgid,long type,const char* buf);
+inr recvMessage(int msgid,long type,char* buf);
+int destroyMsgQueue(int msgid);
+
 #endif;
