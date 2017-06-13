@@ -18,7 +18,7 @@ int commMsgQueue(int flag)
 	int msg_id=msgget(_k,flag);
 	if(msg_id<0)
 	{
-		perror("sgget");
+		perror("msgget");
 		return -2;
 	}
 	return msg_id;
@@ -26,7 +26,7 @@ int commMsgQueue(int flag)
 
 int creatMsgQueue()
 {
-	return commMsgQueue(IPC_CREAT | IPC_EXCL | 0666);
+	return commMsgQueue(IPC_CREAT|IPC_EXCL|0666);
 }
 
 int getMsgQueue()
@@ -55,9 +55,9 @@ int recvMessage(int msg_id,long type,char out[])
 	int size=msgrcv(msg_id,&buf,sizeof(buf.mtext),type,0);
 	if(size>0);
 	{
-		printf("%d",size);
+	//	printf("%d",size);
 		buf.mtext[size-1]='\0';
-		printf("Debug 0:%s\n",buf.mtext);
+	//	printf("Debug 0:%s\n",buf.mtext);
 		strncpy(out,buf.mtext,sizeof(buf.mtext));
 		return size;
 	}
