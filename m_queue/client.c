@@ -16,19 +16,19 @@ int main()
 	while(1)
 	{
 		printf("Please Enter # ");
-		fflush(stout);
+		fflush(stdout);
 		int ret = read(0,buf,MYSIZE-1);
 		if(ret>0)
 		{
 			buf[ret]='\0';
-			printf("Debug client: %s\n",buf);
-			sendMessage(msgid,CLIENT_TTYPE,buf);
+		//	printf("Debug client: %s",buf);
+			sendMessage(msgid,CLIENT_TYPE,buf);
 		}
-		if(recvMessage(msgid,CLIENT_TYPE,out)<0)
+		if(recvMessage(msgid,SERVER_TYPE,out)<0)
 		{
 			break;
 		}
-		printf("server echo # %s\n ",out);
+	//	printf("server echo # %s\n ",out);
 	}
 	return 0;
 }
