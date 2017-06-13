@@ -14,12 +14,12 @@ int main()
 	while(1)
 	{
 		int size = recvMessage(msgid,CLIENT_TYPE,buf);
-		printf("DEBUG: %d\n",size);
+	//	printf("DEBUG: %d\n",size);
 		if(size>0)
 		{
 			buf[size]='\0';
-			printf("client say: %s\n",buf);
-			printf("Debug: %s\n",buf);
+			printf("client say: %s",buf);
+		//	printf("Debug: %s\n",buf);
 		}
 		else
 		{
