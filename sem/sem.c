@@ -43,7 +43,7 @@ int P(int semid,int which)
 
 int V(int semid,int which)
 {
-	int ret=op(semid,1,which);
+	int ret=op_sem(semid,1,which);
 	
 	if(ret==0)
 		return 0;
@@ -53,7 +53,7 @@ int V(int semid,int which)
 
 int CreateSem(int nums)
 {
-	return ComSem(nums,IPC_CREAT|IPCEXCL);
+	return ComSem(nums,IPC_CREAT|IPC_EXCL);
 }
 
 int GetSem(int nums)
