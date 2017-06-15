@@ -23,11 +23,14 @@ union semun
 	struct seminfo *__buf;	   //IPC_INFO(Linux特有)使用缓存区
 };
 
+int ComSem(int nums,int flag);
+static int op_sem(int semid,int op,int which);
 int CreateSem(int nums);
 int DestroySem(int semid);
 int GetSem(int nums);
 int InitSem(int semid,int which);
 int P(int semid,int which);
 int V(int semid,int which);
+int  InitSem(int semid,int which);
 
 #endif
