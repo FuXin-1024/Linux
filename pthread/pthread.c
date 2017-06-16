@@ -22,3 +22,24 @@ void* thread_run(void *arg)
 	return NULL;
 }
 
+int mian()
+{
+	//主线程
+	printf("pthread\n");
+	pthread_t tid;
+	int ret=pthread_creat(&tid,NULL,thread_run,pthread_self());
+	if(ret != 0)
+	{
+		printf("pthread_creat error\n");
+		return -1;
+	}
+	else
+	{
+		sleep(1);
+		printf("main,pid:%d ,ppid:%d ,tid:%d %1u\n",getpid(),getppid().pthread_self());
+	}
+	int exitCode;
+	pthread_join(tid,(void**)&exitCode);
+	printf("main is over..%d\n",exitCode);
+	return 0;
+}
