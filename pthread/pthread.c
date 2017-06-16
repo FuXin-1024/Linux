@@ -16,18 +16,18 @@ void* thread_run(void *arg)
 	while(count++<5)
 	{
 		sleep(1);
-		printf("thread,pid:%d ,ppid:%d ,tid:%d %1u\n",getpid(),getppid().pthread_self());
+		printf("thread,pid:%d ,ppid:%d ,tid:%d %1u\n",getpid(),getppid(),pthread_self());
 	}
 	printf("thread is over...\n");
 	return NULL;
 }
 
-int mian()
+int main()
 {
 	//主线程
 	printf("pthread\n");
 	pthread_t tid;
-	int ret=pthread_creat(&tid,NULL,thread_run,pthread_self());
+	int ret=pthread_create(&tid,NULL,thread_run,pthread_self());
 	if(ret != 0)
 	{
 		printf("pthread_creat error\n");
@@ -35,8 +35,8 @@ int mian()
 	}
 	else
 	{
-		sleep(1);
-		printf("main,pid:%d ,ppid:%d ,tid:%d %1u\n",getpid(),getppid().pthread_self());
+		sleep(10);
+		printf("main,pid:%d ,ppid:%d ,tid:%d %1u\n",getpid(),getppid(),pthread_self());
 	}
 	int exitCode;
 	pthread_join(tid,(void**)&exitCode);
