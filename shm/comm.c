@@ -16,7 +16,7 @@ int commMem(int flags)
 		return -1;
 	}
 
-	int shimd = shmget(_k,SIZE,flags);
+	int shmid = shmget(_k,SIZE,flags);
 	if(shmid<0)
 	{
 		perror("shmget");
@@ -27,7 +27,7 @@ int commMem(int flags)
 
 int creatMem()
 {
-	return commMem(IPC_CRERAT | IPC_EXCL | 0666);
+	return commMem(IPC_CREAT | IPC_EXCL | 0666);
 }
 
 int getMem()
