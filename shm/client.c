@@ -18,11 +18,13 @@ int main()
 	}
 	printf("shmid: %d\n",shmid);
 	sleep(5);
-	char* addr=shmat(shmid,NULL,0);
+	char *addr=shmat(shmid,NULL,0);
 	if(addr == NULL)
 	{
 		printf("addr is NULL!\n");
 	}
+	printf("Debug add %p\n",addr);
+
 	if(addr < 0)
 	{
 		perror("client shmat");
@@ -32,13 +34,14 @@ int main()
 	int i = 0;
 	while(i < SIZE-1)
 	{
-		addr[i] = i;
+		addr[i] ='a' ;
 		addr[i+1] = '\0';
 		sleep(1);
 		i++;
 	}
 
 	int ret=shmdt(addr);
+	printf("Debug shmdt\n");
 	if(ret < 0)
 	{
 		perror("client shmdt");
