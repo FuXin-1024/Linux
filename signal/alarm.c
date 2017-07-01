@@ -11,10 +11,14 @@
 int main()
 {
 	int count = 15;
-	alarm(1);
+	alarm(100);
 	for(;1;count++)
 	{
 		printf("count = %d\n",count);
+		if(count==1000000)
+		break;
 	}
+	int a = alarm(0);// 取消以前设定的闹钟，返回剩余的秒数
+	printf("alarm is: %d\n",a);
 	return 0;
 }
