@@ -11,8 +11,8 @@
 
 void Printsigset(sigset_t *set)
 {
-	int i = 0;
-	for(;i<32;i++)
+	int i = 1;
+	for(;i<=31;i++)
 	{
 		if(sigismember(set ,i))//判断指定信号是否在目标集合中
 		{
