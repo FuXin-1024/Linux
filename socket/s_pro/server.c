@@ -11,6 +11,7 @@
 #include<sys/socket.h>
 #include<netinet/in.h>
 #include<arpa/inet.h>
+#include<string.h>
 
 
 void Usage(const char* name)
@@ -74,14 +75,22 @@ int main(int argc,const char* argv[])
 			{
 				buf[s] = 0;
 				printf("client# %s\n",buf);
+				write(sock, buf, strlen(buf));
 			}
-			else
+			else if(s == 0)
 			{
 				//数据已经读完了，客户端不发送数据了
 				printf("client is quit!\n");
+				return 2;
+			}
+			else
+			{
+				perror("read");
+				return 3;
 			}
 		}
-		close(sock);
+	close(sock);
 	}
+	
 	return 0;
 }
