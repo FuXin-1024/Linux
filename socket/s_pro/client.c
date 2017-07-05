@@ -6,14 +6,14 @@
  ************************************************************************/
 
 #include<stdio.h>
-#include<sys/socket.>
+#include<sys/socket.h>
 #include<sys/types.h>
 #include<unistd.h>
 #include<arpa/inet.h>
 
 
 
-void Usage(char* name)
+void Usage(const char* name)
 {
 	printf("Usage:%s [IpAddress] [port]\n",name);
 }
