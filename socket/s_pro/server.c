@@ -13,12 +13,12 @@
 #include<arpa/inet.h>
 
 
-void Usage(char* name)
+void Usage(const char* name)
 {
 	printf("Usage:%s [IpAddress] [port]\n",name);
 }
 
-int StratUp(int port, const char* ip)
+int StartUp(int port, const char* ip)
 {
 	int ListenSock = socket(AF_INET,SOCK_STREAM,0);	
 	if(ListenSock < 0)
@@ -38,7 +38,7 @@ int StratUp(int port, const char* ip)
 		return 2;
 	}
 
-	if(listen(istenSock,5) < 0)
+	if(listen(ListenSock,5) < 0)
 	{
 		perror("listen");
 		return 3;
@@ -56,7 +56,7 @@ int main(int argc,const char* argv[])
 
 	int len;
 	int listenSock = StartUp(atoi(argv[2]),argv[1]);
-	struct socketaddr_in client;
+	struct sockaddr_in client;
 	while(1)
 	{
 		int sock = accept(listenSock,(struct sockaddr*)&client,&len);//获取客户机的信息
@@ -81,5 +81,7 @@ int main(int argc,const char* argv[])
 				printf("client is quit!\n");
 			}
 		}
-	return 0;'
+		close(sock);
+	}
+	return 0;
 }
