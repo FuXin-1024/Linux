@@ -71,22 +71,33 @@ int main(int argc,const char* argv[])
 		while(1)
 		{
 			ssize_t s = read(sock,buf,sizeof(buf)-1);//从服务器读数据
-			if(s > 0)
-			{
-				buf[s] = 0;
-				printf("client# %s\n",buf);
-				write(sock, buf, strlen(buf));
-			}
-			else if(s == 0)
+			 if(s == 0)
 			{
 				//数据已经读完了，客户端不发送数据了
 				printf("client is quit!\n");
 				return 2;
 			}
-			else
+			 else if(s <0)
 			{
 				perror("read");
 				return 3;
+			}
+			 else
+			{
+				buf[s] = 0;
+				printf("client# %s\n",buf);
+			//	write(sock, buf, strlen(buf));
+			
+	        	printf("say: ");
+	        	fflush(stdout);
+				ssize_t _s = read(0,buf,sizeof(buf)-1);
+	        	if(_s <= 0)
+	        	{
+	        		perror("read");
+	        		return 1;
+	        	}
+	        	buf[_s-1]=0;
+	        	write(sock,buf,sizeof(buf)-1);
 			}
 		}
 	close(sock);
