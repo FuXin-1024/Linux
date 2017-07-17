@@ -21,7 +21,7 @@ int readfds[SIZE];  //保存所有文件描述符的数组
 
 void Usage(const char* name)
 {
-	printf("Usage:%s [IP] [port]\n");
+	printf("Usage:%s [IP] [port]\n",name);
 }
 
 int StartUp(const char* ip,int port)
@@ -55,7 +55,9 @@ int StartUp(const char* ip,int port)
 
 int main(int argc,char* argv[])
 {
-	if(arc != 3)
+
+	//printf("hello\n");
+	if(argc != 3)
 	{
 		Usage(argv[0]);
 		return 4;
@@ -99,11 +101,12 @@ int main(int argc,char* argv[])
 					break;
 				}
 			default:
+				
 				{
 					int k = 0;
 					for(; k<SIZE; ++k)
 					{
-						if(read[k] == sock && FD_ISSET(readfds[k],&rfds))
+						if(readfds[k] == sock && FD_ISSET(readfds[k],&rfds))
 						{
 							struct sockaddr_in peer;
 							socklen_t len = sizeof(peer);
@@ -117,9 +120,9 @@ int main(int argc,char* argv[])
 							int l = 0;
 							for(; l<SIZE; ++l)
 							{
-								if(readfds[l]  -1)
+								if(readfds[l] == -1)
 								{
-									readfds[l] == newsock;
+									readfds[l] = newsock;
 									break;
 								}
 							}
@@ -146,10 +149,10 @@ int main(int argc,char* argv[])
 							}
 							else
 							{
-								buf[s]=0;
+								buf[s] = 0;
 								printf("client # %s\n",buf);
 								fflush(stdout);
-								write(readfds[k],buf.strlen(buf));
+								write(readfds[k],buf,strlen(buf));
 							}
 						}
 					}
