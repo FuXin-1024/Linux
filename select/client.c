@@ -43,7 +43,7 @@ int main(int argc,char* argv[])
 		perror("connecct");
 		return 3;
 	}
-	printf("connrct success\n");
+	printf("connect success\n");
 
 	char buf[1024];
 	while(1)
@@ -62,7 +62,7 @@ int main(int argc,char* argv[])
 			int fd = dup(1);
 			dup2(sock,1);
 			printf("%s",buf);
-			fflush(stout);
+			fflush(stdout);
 			dup2(fd,1);
 		}
 		s = read(sock,buf,sizeof(buf)-1);
@@ -79,10 +79,11 @@ int main(int argc,char* argv[])
 		else
 		{
 			buf[s] = 0;
+			
 			printf("server #%s\n",buf);
 		}
 	}
-	lose(sock);
+	close(sock);
 	return 0;
 }
 
