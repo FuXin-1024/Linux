@@ -49,7 +49,6 @@ int StartUp(const char* ip,int port)
 		perror("listen");
 		return 3;
 	}
-
 	return sock;
 }
 
