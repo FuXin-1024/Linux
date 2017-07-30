@@ -49,6 +49,13 @@ left=3
 currentX=15
 currentY=2
 
+#信号
+sigA=20
+sigS=21
+sigD=22
+sigW=23
+sig=0
+
 function Draw_Box()
 {
   local i j x y
@@ -61,7 +68,7 @@ function Draw_Box()
 	  echo -e "\033[${y};${x}H   "
   done
   else
-	  echo -e "\033[${colourArry[$colorNum]}m\033[1m"
+	  echo -e "\033[${colourArry[$colourNum]}m\033[1m"
 	  for (( i=0;i<8;i+=2 ))
 	  do
 		  (( x=left +3*(currentX + ${newBox[i]}) ))
@@ -92,10 +99,182 @@ function Random_Box()
 	done
 }
 
-while :
-do
+function move_left()
+{
+	local temp
+	if (( currentX == 0 ));then
+		return 1;
+	fi
+
+	#先清除以前的方块
+	Draw_Box 0
+
+	#改变x坐标
+	(( currentX -- ))
+	
+	#画出新的方块
+	Draw_Box 1
+
+	return 0;
+}
+
+#记录已经旋转的方块次数
+tempCount=0
+
+#按下w键旋转处理
+function box_rotate()
+{
+    local start_post
+    
+    ((tempCount ++))
+    #echo ${rotateCount[boxNum]}
+    if ((tempCount >= ${rotateCount[boxNum]}))
+    then
+        ((tempCount = 0))
+    fi
+
+    #每个盒子在box中的始位置
+    ((start_post = ${boxOffset[boxNum]} * 8 + tempCount * 8))
+
+    for ((i = 0;i < 8;i ++))
+    do
+        ((newBox[i] = ${box[start_post+i]}))
+    done
+
+    return 0
+}
+
+
+function move_rotate()
+{
+	if (( currentY == 0));then
+		return 1;
+	fi
+
+	#先清除以前的方块
+	Draw_Box 0
+
+	#改变当前方块的形状
+	box_rotate 
+
+	#画出新的方块
+	Draw_Box 1
+
+	return 0;
+}
+
+function move_down()
+{
+	if (( currentY > 20 ));then
+		return 1;
+	fi
+
+	#先清除以前的方块
+	Draw_Box 0
+
+	#改变x坐标
+	(( currentY ++ ))
+
+	#画出新的方块
+	Draw_Box 1
+
+	return 0;
+}
+
+function move_right()
+{
+	if (( currnetX > 20 ));then 
+		return 1;
+	fi
+
+	#先清除以前的方块
+	Draw_Box 0
+
+	#改变x坐标
+	(( currentX ++ ))
+
+	#画出新的方块
+	Draw_Box 1
+
+	return 0;
+}
+
+function Register_Signal()
+{
+	trap "sig=$sigA;" $sigA
+	trap "sig=$sigS;" $sigS
+	trap "sig=$sigD;" $sigD
+	trap "sig=$sigW;" $sigW
+}
+
+function Recive_Signal()
+{
 	Random_Box
 	Draw_Box 1
-	sleep 1
-	Draw_Box 0
-done
+	Register_Signal
+
+	while true
+	do
+		sigThis=$sig
+		case "$sigThis" in
+			"$sigA")
+			move_left
+			sig=0
+			;;
+
+			"$sigS")
+			move_down
+			sig=0
+			;;
+
+			"$sigD")
+			move_right
+			sig=0
+			;;
+
+			"$sigW")
+			move_rotate
+			sig=0
+			;;
+
+		esac
+	done
+}
+
+function Kill_Signal()
+{
+	local sigThis
+
+	while :
+	do
+		read -s -n 1 key
+		case "$key" in
+			"W"|"w")
+			kill -$sigW $1
+			;;
+
+			"S"|"s")
+			kill -$sigS $1
+			;;
+
+			"A"|"a")
+			kill -$sigA $1
+			;;
+
+			"D"|"d")
+			kill -$sigD $1
+			;;
+
+			"Q"|"q")
+			kill -9 $1
+			exit
+		esac
+	done
+}
+
+if [[ "$1" == "--show" ]];then
+	Recive_Signal
+else
+	bash $0 --show &
+	Kill_Signal $!
+fi
