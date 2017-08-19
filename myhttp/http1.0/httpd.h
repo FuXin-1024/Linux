@@ -22,11 +22,11 @@
 
 #define WARNING 1
 #define FATAL 2
-#define SZIE 102400
+#define SIZE 102400
 
 void print_log(const char* str,int error);
 int startup(const char* ip,const char* port);
-int get_line(int fd,char* buf,int size);
+int get_line(int sock,char* buf,int size);
 void Dealwithsock(int sock);
 
 #endif
